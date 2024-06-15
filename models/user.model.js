@@ -1,7 +1,7 @@
-const { Schema, model } = require('mongoose')
+const { Schema, model } = require("mongoose");
 
 const userSchema = new Schema({
-    // Define schema here
-})
+  // Define schema here
+});
 
-exports.UserModel = model('users', userSchema, "USER");
+exports.UserModel = model("users", userSchema, "USER");
