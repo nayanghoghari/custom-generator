@@ -13,6 +13,22 @@ if (!targetDir) {
 
 const currentDir = path.join(__dirname, "../");
 
-fs.copy(currentDir, targetDir)
-  .then(() => console.log(`Successfully created project at ${targetDir}`))
-  .catch((err) => console.error(err));
+const copyFiles = async () => {
+  // Get list of files and directories in the template directory
+  const filesToCopy = await fs.readdir(currentDir);
+
+  // Filter out files or directories you want to exclude
+  const filesToExclude = ["bin",".env", "node_modules"];
+
+  for (let file of filesToCopy) {
+    if (!filesToExclude.includes(file)) {
+      const sourceFile = path.join(currentDir, file);
+      const targetFile = path.join(targetDir, file);
+      await fs.copy(sourceFile, targetFile);
+    }
+  }
+
+  console.log(`Successfully created project at ${targetDir}`);
+};
+
+copyFiles();
