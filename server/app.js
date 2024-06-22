@@ -1,13 +1,20 @@
 const dotenv = require("dotenv");
 dotenv.config();
 const express = require("express");
-const { connectDB } = require("../utils/index.utils");
+const passport = require("passport");
+const bodyparser = require("body-parser");
+const morgan = require('morgan');
+
 const app = express();
 const router = require("../routers/index.router");
 const { errorHandler, notFoundHandler } = require("../middlewares/error.middleware");
+const { connectDB } = require("../utils/index.utils");
+require("../middlewares/auth.middleware")
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(bodyparser.urlencoded({ extended: false }));
+app.use(passport.initialize());
+app.use(morgan("dev"));
 
 app.use("/", router);
 app.use(notFoundHandler)
